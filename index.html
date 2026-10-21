@@ -1,24 +1,33 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DalaGG Studios Tools</title>
-  <style>
-    body {
-      background: #0e1b2c;
-      color: #f7f9ff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 80px 20px;
-    }
-    h1 { color: #ffcc48; }
-    p { color: #bdd0e8; }
-  </style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#0e1b2c" name="theme-color"/>
+<meta content="Free browser-based tools for WorthIt addons from DalaGG Studios." name="description"/>
+<title>WorthIt Web Tools | DalaGG Studios</title>
+<style>
+:root{color-scheme:dark;--bg:#0e1b2c;--surface:#172a41;--surface2:#1d334d;--line:#34506b;--gold:#ffcc48;--teal:#39e6e0;--text:#f7f9ff;--muted:#b9cde8}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 85% 3%,#183b4d 0,transparent 34%),radial-gradient(ellipse at 2% 50%,#162c49 0,transparent 38%),var(--bg);color:var(--text);font:16px/1.6 Arial,Helvetica,sans-serif;min-height:100vh}a{color:inherit} .wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+header{border-bottom:1px solid #ffffff18;background:#0c1929bd;backdrop-filter:blur(12px)}.nav{min-height:76px;display:flex;justify-content:space-between;align-items:center;gap:20px}.brand{text-decoration:none;display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.5px;font-size:20px}.brand-mark{width:40px;height:40px;display:grid;place-items:center;border:1px solid #e9b83b70;border-radius:12px;background:linear-gradient(145deg,#3b3840,#16293c);color:var(--gold);font-family:Georgia,serif;font-size:25px}.brand span span{color:var(--gold)}.nav-right{color:var(--muted);font-size:13px;font-weight:bold;letter-spacing:1px;text-transform:uppercase}
+main{padding:78px 0 90px}.eyebrow{color:var(--teal);font-size:12px;font-weight:800;letter-spacing:2.2px;text-transform:uppercase}.hero{max-width:840px}.hero h1{font-family:Georgia,serif;font-size:clamp(44px,7vw,76px);line-height:1.08;letter-spacing:-1.8px;color:var(--gold);margin:15px 0 22px}.hero h1 em{font-style:normal;color:#fff}.hero p{max-width:700px;color:var(--muted);font-size:clamp(17px,2.1vw,20px);margin:0}.rule{height:1px;background:linear-gradient(90deg,#56718b,transparent);margin:48px 0 38px}
+.section-heading{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:20px}.section-heading h2{font-size:28px;line-height:1.2;margin:8px 0 0;color:var(--gold)}.section-heading p{margin:0;color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{border:1px solid var(--line);border-radius:18px;padding:32px;background:linear-gradient(150deg,#203750,#142438);position:relative;overflow:hidden;min-height:335px;display:flex;flex-direction:column;box-shadow:0 15px 40px #00000019}.card:before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;right:-95px;top:-100px;background:radial-gradient(circle,#39e6e016,transparent 70%);pointer-events:none}.card-icon{width:60px;height:60px;display:grid;place-items:center;border-radius:15px;background:#0d2032;border:1px solid #45657e;color:var(--gold);font-size:27px;font-weight:900;margin-bottom:22px}.card h3{color:var(--gold);font-size:26px;line-height:1.2;margin:0 0 13px}.card p{color:var(--muted);margin:0 0 25px;flex:1}.card-footer{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.status{display:inline-flex;align-items:center;gap:8px;color:#d6e5f4;border:1px solid #4c6279;background:#0d1e30;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700}.status:before{content:"";width:7px;height:7px;background:var(--teal);border-radius:50%}.tag{font-size:11px;color:var(--teal);font-weight:900;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:12px}
+.note{margin-top:25px;border:1px solid #2e4c62;background:#12283b;border-radius:13px;padding:20px 24px;color:var(--muted);font-size:14px}.note strong{color:#fff}footer{border-top:1px solid #ffffff1a;padding:25px 0 35px;color:#9fb5cd;font-size:13px}.foot{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}footer strong{color:var(--gold)}
+@media(max-width:720px){main{padding:52px 0 60px}.grid{grid-template-columns:1fr}.card{min-height:300px;padding:26px}.nav-right{display:none}.rule{margin:34px 0}.wrap{width:min(1120px,calc(100% - 28px))}}
+
+.tool-link{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--gold);color:#101820;text-decoration:none;font-weight:900;font-size:14px;padding:12px 18px;border-radius:9px;transition:transform .15s,filter .15s}.tool-link:hover{filter:brightness(1.1);transform:translateY(-2px)}.tool-link:focus-visible{outline:3px solid var(--teal);outline-offset:3px}.tool-link .arrow{font-size:18px}.card:focus-within{border-color:var(--teal)}.card .mini{color:var(--teal);font-size:12px;font-weight:800;letter-spacing:.6px;margin-top:14px}.card-icon{font-family:Arial,sans-serif}.note a{color:var(--teal)}
+</style>
 </head>
 <body>
-  <h1>DalaGG Studios Tools</h1>
-  <p>Home of the WorthIt web tools.</p>
-  <p>WorthIt Guides Creator and WorthIt Merge coming soon.</p>
+<header><div class="wrap nav"><a aria-label="DalaGG Studios Tools home" class="brand" href="./"><span class="brand-mark">D</span><span>DalaGG <span>Studios</span></span></a><div class="nav-right">WorthIt · Web Tools</div></div></header>
+<main class="wrap">
+<section class="hero"><div class="eyebrow">DalaGG Studios / WorthIt ecosystem</div><h1>Better tools.<br/><em>Better adventures.</em></h1><p>Create, organise, merge and process WorthIt content with our free browser-based tools. Everything in one place, built for the World of Warcraft community.</p></section>
+<div class="rule"></div>
+<section aria-labelledby="tools-title"><div class="section-heading"><div><div class="eyebrow">Explore the toolkit</div><h2 id="tools-title">Our web tools</h2></div><p>Four browser tools · Direct links</p></div>
+<div class="grid"><article class="card"><div aria-hidden="true" class="card-icon">✎</div><div class="tag">Guide creation</div><h3>WorthIt Guides Creator</h3><p>Build structured guides with steps and waypoints, then export your content for WorthIt Guides.</p><div class="card-footer"><a aria-label="Open Guides Creator" class="tool-link" href="./WorthItGuides_Creator.html">Open Guides Creator <span aria-hidden="true" class="arrow">↗</span></a></div></article><article class="card"><div aria-hidden="true" class="card-icon">⇄</div><div class="tag">Guide management</div><h3>WorthIt Merge</h3><p>Bring WorthIt guide content together using our browser-based merging utility.</p><div class="card-footer"><a aria-label="Open WorthIt Merge" class="tool-link" href="./WorthItMerge.html">Open WorthIt Merge <span aria-hidden="true" class="arrow">↗</span></a></div></article><article class="card"><div aria-hidden="true" class="card-icon">⌘</div><div class="tag">Guide utilities</div><h3>WorthIt Guides Parser</h3><p>Access the dedicated parser utility for WorthIt Guides content.</p><div class="card-footer"><a aria-label="Open Guides Parser" class="tool-link" href="./WorthItGuidesParser.html">Open Guides Parser <span aria-hidden="true" class="arrow">↗</span></a></div></article><article class="card"><div aria-hidden="true" class="card-icon">⚙</div><div class="tag">WorthIt utilities</div><h3>WorthIt Parser</h3><p>Access the dedicated parser utility for WorthIt addon content.</p><div class="card-footer"><a aria-label="Open WorthIt Parser" class="tool-link" href="./WorthItParser.html">Open WorthIt Parser <span aria-hidden="true" class="arrow">↗</span></a></div></article></div></section>
+<div class="note"><strong>All four tools are linked.</strong> Choose a tool above to open it. If you have just uploaded a new version, GitHub Pages may take a minute or two to deploy the changes.</div>
+</main>
+<footer><div class="wrap foot"><span><strong>DalaGG Studios</strong> · Made for the WorthIt community</span><span>Free tools for World of Warcraft players</span></div></footer>
 </body>
 </html>
