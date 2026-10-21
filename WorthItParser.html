@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WorthIt — Farm Data Parser</title>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.7/base64.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+<style>
+:root { color-scheme:dark; --bg:#0b1019; --panel:#141c2a; --panel2:#192436; --line:#2a384b; --text:#e9f0f8; --muted:#98a9bf; --gold:#f6c75a; --teal:#49d8ca; --red:#f58a91; }
+* { box-sizing:border-box; }
+body { margin:0; background: radial-gradient(ellipse at 85% -20%, #21334c 0%,transparent 55%), radial-gradient(ellipse at 0% 15%, #152938 0%,transparent 43%), var(--bg); font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--text); min-height:100vh; }
+.shell { max-width:1100px; padding:40px 22px 70px; margin:auto; }
+.topbar { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:30px; }
+.brand { display:flex; align-items:center; gap:14px; }
+.mark { width:50px;height:50px;border:1px solid #ad8543;border-radius:14px;background:linear-gradient(145deg,#3a3326,#171e2c);display:grid;place-items:center;font-size:26px;color:var(--gold);font-weight:900;box-shadow:0 12px 28px #0004; }
+.brand h1 { font-size:25px;letter-spacing:-.7px;line-height:1.15;margin:0; }
+.brand h1 strong { color:var(--gold); }
+.brand p { margin:5px 0 0;color:var(--muted);font-size:13px; }
+.version { border:1px solid var(--line);background:#121c29;border-radius:999px;color:var(--teal);padding:7px 12px;font-size:12px;white-space:nowrap; }
+.intro { color:var(--muted);margin:-6px 0 28px;max-width:740px; }
+.workspace { display:grid;grid-template-columns:1fr 1fr;gap:18px; }
+.panel { background:linear-gradient(180deg,rgba(27,39,56,.97),rgba(18,27,40,.98));border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 14px 32px #0002;min-width:0; }
+.panel.output-panel { grid-column:1/-1; }
+.panel-heading { display:flex;align-items:center;gap:12px;margin-bottom:18px; }
+.step { display:grid;place-items:center;width:29px;height:29px;flex:none;border-radius:9px;background:#2c3a4a;color:var(--gold);font-size:13px;font-weight:800; }
+.panel h2 { margin:0;font-size:17px;letter-spacing:-.25px; }
+.panel-heading small { color:var(--muted);display:block;font-size:12px; }
+label { display:block;color:#cbd8e6;font-weight:600;font-size:13px;margin-bottom:7px; }
+textarea,input[type=text],select { width:100%;min-width:0;background:#0c1522;border:1px solid #35465c;color:var(--text);border-radius:9px;padding:11px 12px;font:inherit;outline:none;transition:border-color .15s,box-shadow .15s; }
+textarea:focus,input:focus,select:focus { border-color:var(--teal);box-shadow:0 0 0 3px #49d8ca19; }
+textarea { min-height:188px;resize:vertical;line-height:1.45;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px; }
+textarea::placeholder { color:#667c93; }
+.field { margin-bottom:16px; }
+.two { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+.hint { color:var(--muted);font-size:12px;margin:8px 0 0; }
+.checkbox-row { display:flex;gap:11px;align-items:center;padding:11px 13px;background:#101a27;border:1px solid var(--line);border-radius:10px;margin:6px 0 20px; }
+.checkbox-row input { width:17px;height:17px;accent-color:var(--teal); }
+.checkbox-row label { margin:0;cursor:pointer;font-weight:500; }
+.actions { display:flex;gap:10px;flex-wrap:wrap; }
+button { appearance:none;border:1px solid transparent;border-radius:9px;padding:11px 18px;font:700 13px/1.3 inherit;font-family:inherit;font-size:13px;font-weight:750;cursor:pointer;transition:transform .12s,filter .12s; }
+button:hover:not(:disabled) { filter:brightness(1.1);transform:translateY(-1px); }
+button:disabled { opacity:.4;cursor:not-allowed; }
+.primary { color:#112019;background:linear-gradient(135deg,#f9d777,#e8ac46); }
+.secondary { color:#092725;background:linear-gradient(135deg,#6be6d9,#36bdaf); }
+.ghost { color:var(--text);background:#243348;border-color:#3c5066; }
+.output-toolbar { display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap; }
+.output-title { margin:0;font-size:17px; }
+.result { margin:17px 0 0;background:#09111c;border:1px solid #2b3c50;border-radius:11px;padding:18px;min-height:180px;max-height:510px;overflow:auto;white-space:pre;tab-size:4;color:#b6e8dd;font:12.5px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace; }
+.result:empty::before { content:'Decoded farm data and generated Lua will appear here…';color:#6d8097; }
+.status { display:flex;gap:9px;align-items:center;color:var(--muted);font-size:12px;margin-top:12px;min-height:20px; }
+.status::before { content:'';width:7px;height:7px;background:#74869a;border-radius:50%;flex:none; }
+.status.ok::before { background:var(--teal); }
+.status.error { color:var(--red); }
+.status.error::before { background:var(--red); }
+.footer { color:#70839a;text-align:center;font-size:12px;margin-top:28px; }
+@media(max-width:720px) { .shell{padding:24px 14px 48px}.workspace{grid-template-columns:1fr}.panel.output-panel{grid-column:auto}.topbar{align-items:flex-start}.version{font-size:11px}.two{grid-template-columns:1fr}.brand h1{font-size:21px}.panel{padding:18px} }
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="topbar">
+  <div class="brand"><div class="mark">W</div><div><h1><strong>WorthIt</strong> Farm Parser</h1><p>Farm data → addon-ready Lua</p></div></div>
+  <span class="version">Forever compatible</span>
+</header>
+<p class="intro">Turn exported WorthIt farm data into a clean Lua entry. Import your string, adjust the farm details, then generate and copy the result.</p>
+<div class="workspace">
+  <section class="panel">
+    <div class="panel-heading"><span class="step">01</span><div><h2>Import farm data</h2><small>Paste a WorthIt export string</small></div></div>
+    <label for="importString">Export string</label>
+    <textarea id="importString" class="importString" rows="9" spellcheck="false" placeholder="Paste your WorthIt export string here…"></textarea>
+    <p class="hint">The original WorthIt export format is supported, including Forever farm data.</p>
+    <div class="actions" style="margin-top:20px"><button type="button" class="decode primary">Decode farm data</button><button type="button" class="clear ghost">Clear</button></div>
+  </section>
+  <section class="panel">
+    <div class="panel-heading"><span class="step">02</span><div><h2>Farm settings</h2><small>Review before generating Lua</small></div></div>
+    <div class="field"><label for="idField">Farm ID</label><input id="idField" type="text" class="idField" placeholder="e.g. Elwynn_Copper_Route"></div>
+    <div class="two">
+      <div class="field"><label for="content">Content / Expansion</label><select id="content" class="content">
+<option value="1">Vanilla</option>
+<option value="2">The Burning Crusade</option>
+<option value="3">Wrath of the Lich King</option>
+<option value="4">Cataclysm</option>
+<option value="5">Mist of Pandaria</option>
+<option value="6">Warlords of Draenor</option>
+<option value="7">Legion</option>
+<option value="8">Battle for Azeroth</option>
+<option value="9">Shadowlands</option>
+<option value="10">Dragonflight</option>
+<option value="11">The War Within</option>
+<option value="12">Midnight</option>
+<option value="core.Content.Forever">Forever</option>
+      </select></div>
+      <div class="field"><label for="activities">Activity</label><select id="activities" class="activities">
+<option value="1">Mining</option>
+<option value="2">Herbalism</option>
+<option value="3">Skinning</option>
+<option value="4">Fishing</option>
+<option value="5">Cloth</option>
+<option value="6">Transmog</option>
+<option value="7">Misc</option>
+<option value="8">Mounts</option>
+<option value="9">Toys</option>
+<option value="10">Raw Gold</option>
+<option value="11">Battle Pets</option>
+<option value="12">Multi Farms</option>
+<option value="13">Group Farms</option>
+      </select></div>
+    </div>
+    <div class="checkbox-row"><input id="removeLink" type="checkbox" class="removeLink" checked><label for="removeLink">Remove item hyperlinks from output</label></div>
+    <div class="actions"><button type="button" class="update secondary" disabled>Generate Lua</button></div>
+    <p class="hint">Settings are populated automatically after decoding. You can edit them before generating.</p>
+  </section>
+  <section class="panel output-panel">
+    <div class="output-toolbar"><div><h2 class="output-title">Lua output</h2><p class="hint">Ready to paste into your WorthIt farm data files</p></div><div class="actions"><button type="button" class="clipboard primary" disabled>Copy Lua</button><button type="button" class="download ghost" disabled>Save .lua</button></div></div>
+    <pre class="result" aria-label="Generated Lua output"></pre>
+    <div class="status" role="status" aria-live="polite">Waiting for farm data.</div>
+  </section>
+</div>
+<p class="footer">WorthIt · DalaGG Studios · Local parser utility</p>
+</main>
+<script>
+        function findProperty(str, propertyName) {
+            var regexObj = new RegExp(`(\<br[^>]*>    ${propertyName} [^=]*= [^,]*,)`, 'gm');
+            var match = str.match(regexObj);
+            return match && match.length > 0 ? match[0] : '';
+        }
+
+        function getPropertyValue(str, propertyName) {
+            var match = findProperty(str, propertyName);
+
+            if (!match) {
+                return '';
+            }
+
+            match = match.match(/(= [^,]*)/gm);
+
+            return match && match.length > 0 ? match[0].substring(2) : '';
+        }
+
+        function getPropertyStringValue(str, propertyName) {
+            var res = getPropertyValue(str, propertyName);
+
+            return res && res.length > 2 ? res.substring(1, res.length - 1) : '';
+        }
+
+        function replacePropertyStringValue(str, propertyName, value) {
+            return replacePropertyValue(str, propertyName, `"${value}"`)
+        }
+
+        function replacePropertyValue(str, propertyName, value) {
+            var regexObj = new RegExp(`(\<br[^>]*>    ${propertyName} [^=]*= [^,]*,)`, 'gm');
+            var match = str.match(regexObj);
+
+            if (match && match.length > 0) {
+                match = match[0].replace(/(= [^,]*,)/gm, `= ${value},`);
+
+                return str.replace(regexObj, match);
+            } else {
+                var idMatch = findProperty(str, 'Id');
+                var newProperty = idMatch.replace(/ Id =/gm, ` ${propertyName} =`);
+                str = str.replace(idMatch, idMatch + newProperty);
+
+                return replacePropertyValue(str, propertyName, value);
+            }
+        }
+
+        function removeProperty(str, propertyName) {
+            var regexObj = new RegExp(`(<br[^>]*[^A-Za-z0-9,=]* ${propertyName} [^,]*,)`, 'gm');
+            return str.replace(regexObj, '');
+        }
+
+        function removeSection(str, sectionName) {
+            var regexObj = new RegExp(`(<br[^>]*[^A-Za-z0-9,=]* ${sectionName} [^}]*},)`, 'gm');
+            return str.replace(regexObj, '');
+        }
+
+        function getIntersect(intersectLevel, isValue) {
+            if (isValue) {
+                return ' = ';
+            }
+
+            var res = '';
+
+            for (let i = 0; i < intersectLevel; i++) {
+                res += '    ';
+            }
+
+            return res;
+        }
+
+        function deserialize(str) {
+            str = str.replaceAll(/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g, '')
+            var matches = str.matchAll(/([\^.])([^^]*)/g);
+            var result = '';
+            var isValue = false;
+            var intersectLevel = 0;
+            var float1 = null;
+
+            for (const match of matches) {
+                var key = match[0].substring(0, 2);
+                var value = match[0].substring(2);
+                switch (key) {
+                    case '^1':
+                    case '^':
+                        continue;
+                        break;
+                    case '^S':
+                        value = isValue ? `"${value}"` : value;
+                        result += `${getIntersect(intersectLevel, isValue)}${value}`;
+                        break;
+                    case '^B':
+                        result += `${getIntersect(intersectLevel, isValue)}true`;
+                        break;
+                    case '^b':
+                        result += `${getIntersect(intersectLevel, isValue)}false`;
+                        break;
+                    case '^N':
+                        value = isValue ? value : `[${value}]`;
+                        result += `${getIntersect(intersectLevel, isValue)}${value}`;
+                        break;
+                    case '^F':
+                        float1 = parseInt(value);
+                        continue;
+                        break;
+                    case '^f':
+                        var float2 = parseInt(value);
+                        result += `${getIntersect(intersectLevel, isValue)}${float1 * Math.pow(2, float2)}`;;
+                        break;
+                    case '^Z':
+                        result += `${getIntersect(intersectLevel, isValue)}nil`;
+                        break;
+                    case '^T':
+                        result += `${getIntersect(intersectLevel, isValue)}{<br>`;
+                        intersectLevel++;
+                        isValue = false;
+                        continue;
+                        break;
+                    case '^t':
+                        intersectLevel--;
+                        result += `${getIntersect(intersectLevel, isValue)}}`;
+                        isValue = true;
+                        break;
+                }
+
+                isValue = !isValue;
+
+                if (!isValue) {
+                    result += ',<br>';
+                }
+            }
+
+            return result;
+        }
+
+
+$(document).ready(function () {
+    var importString = '';
+    var result = '';
+    var importBox = $('.importString');
+    var resultBox = $('.result');
+    var decodeButton = $('.decode');
+    var updateButton = $('.update');
+    var clipboardButton = $('.clipboard');
+    var downloadButton = $('.download');
+    var status = $('.status');
+    function setStatus(message, type) { status.removeClass('ok error').addClass(type || '').text(message); }
+    function visible(str) { return str.replace(/(<br[^>]*>)/g, '\n'); }
+    function resetOutput() { result = ''; clipboardButton.prop('disabled',true); downloadButton.prop('disabled',true); }
+    $('.clear').click(function () { importBox.val(''); $('.idField').val(''); resultBox.text(''); resetOutput(); updateButton.prop('disabled',true); setStatus('Waiting for farm data.'); importBox.focus(); });
+    decodeButton.click(function () {
+        try {
+            var raw = importBox.val().trim();
+            if (!raw) throw new Error('Paste an export string first.');
+            var index = raw.lastIndexOf(':');
+            raw = raw.substring(index + 1);
+            raw = Base64.decode(raw);
+            raw = raw.replaceAll('~`', ' ');
+            if (!raw.includes('^T')) throw new Error('This does not look like a valid WorthIt farm export.');
+            importString = deserialize(raw);
+            var id = getPropertyStringValue(importString, 'Id');
+            var content = getPropertyValue(importString, 'Content');
+            var activity = getPropertyValue(importString, 'Activity');
+            if (content === '100') content = 'core.Content.Forever';
+            $('.idField').val(id);
+            $('.content').val(content || '1');
+            $('.activities').val(activity || '1');
+            resultBox.text(visible(importString));
+            resetOutput();
+            updateButton.prop('disabled',false);
+            setStatus('Farm decoded. Review the settings and generate Lua.', 'ok');
+        } catch(e) { resetOutput(); updateButton.prop('disabled',true); setStatus('Decode failed: ' + e.message, 'error'); }
+    });
+    updateButton.click(function () {
+        try {
+            var newId = $('.idField').val().trim();
+            if (!newId) throw new Error('Enter a Farm ID before generating.');
+            var content = $('.content').val();
+            var activity = $('.activities').val();
+            var idProp = newId.replaceAll(/([^A-Za-z0-9])/g, '_');
+            result = `core.Data.Results.Farms.${idProp} = ${importString.substring(0, importString.lastIndexOf(','))}`;
+            result = replacePropertyStringValue(result, 'Id', newId);
+            result = replacePropertyValue(result, 'Content', content);
+            result = replacePropertyValue(result, 'Activity', activity);
+            result = removeProperty(result, 'IsCustom');
+            result = removeProperty(result, 'IsPaused');
+            result = removeProperty(result, 'IsRunning');
+            result = removeProperty(result, 'CurrentTime');
+            result = removeProperty(result, 'RouteKey');
+            result = removeProperty(result, 'hidden');
+            result = removeProperty(result, 'looped');
+            result = removeProperty(result, 'visible');
+            result = removeSection(result, 'db_type');
+            result = removeSection(result, 'taboolist');
+            result = removeSection(result, 'taboos');
+            result = removeSection(result, 'selection');
+            result = removeSection(result, 'color');
+            if ($('.removeLink')[0].checked) result = removeProperty(result, 'ItemLink');
+            resultBox.text(visible(result));
+            clipboardButton.prop('disabled',false);
+            downloadButton.prop('disabled',false);
+            setStatus('Lua generated successfully. Ready to copy or save.', 'ok');
+        } catch(e) { resetOutput(); setStatus('Generation failed: ' + e.message, 'error'); }
+    });
+    clipboardButton.click(function () {
+        var plain = visible(result);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(plain).then(function(){ setStatus('Lua copied to clipboard.', 'ok'); }).catch(function(){ fallbackCopy(plain); });
+        } else fallbackCopy(plain);
+    });
+    function fallbackCopy(str) {
+        var t = document.createElement('textarea'); t.value=str; document.body.appendChild(t); t.select();
+        var ok = document.execCommand('copy'); document.body.removeChild(t);
+        setStatus(ok ? 'Lua copied to clipboard.' : 'Copy failed. Select the output and copy it manually.',ok?'ok':'error');
+    }
+    downloadButton.click(function () {
+        var name = $('.idField').val().trim().replace(/[^A-Za-z0-9_-]/g,'_') || 'WorthItFarm';
+        var blob = new Blob([visible(result)],{type:'text/plain;charset=utf-8'});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a'); a.href=url; a.download=name+'.lua'; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function(){URL.revokeObjectURL(url);},1000);
+        setStatus('Saved '+name+'.lua', 'ok');
+    });
+});
+</script>
+</body>
+</html>

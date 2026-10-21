@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WorthIt Farm Data Merge | DalaGG Studios</title>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.7/base64.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+<style>
+:root{color-scheme:dark;--bg:#0b1019;--panel:#171f2e;--panel2:#111928;--line:#34445b;--txt:#ecf2fa;--muted:#a4b4ca;--gold:#f3c94d;--aqua:#58e2d5;--red:#ed8b91}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 75% -25%,#1b3450 0%,transparent 55%),var(--bg);color:var(--txt);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.shell{max-width:1200px;margin:auto;padding:35px 24px 70px}
+header{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:0 0 26px;border-bottom:1px solid var(--line);margin-bottom:25px}
+h1{font-size:clamp(26px,3.4vw,37px);letter-spacing:-.7px;line-height:1.2;margin:8px 0;color:var(--gold)}
+h2{font-size:17px;color:var(--aqua);margin:0 0 10px}p{margin:6px 0 0}.eyebrow{color:var(--aqua);text-transform:uppercase;font-size:11px;font-weight:750;letter-spacing:1.8px}
+.subtitle{color:var(--muted);max-width:670px}.tag{background:#223b43;color:#9df2e8;padding:8px 12px;border-radius:999px;font-size:12px;white-space:nowrap}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:21px;min-width:0;box-shadow:0 8px 24px #0002}
+.panel.full{grid-column:1/-1}.panel-head{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:15px}
+.step{color:var(--gold);font-size:12px;font-weight:700;background:#3b3420;border:1px solid #665727;border-radius:6px;padding:4px 9px}
+label{display:block;color:#c1d0e2;font-size:12px;font-weight:700;margin:12px 0 7px}
+textarea,input[type=text],select{width:100%;min-width:0;background:#0d1522;color:var(--txt);border:1px solid #41526a;border-radius:8px;padding:12px;font:inherit;outline:none}
+textarea{min-height:220px;resize:vertical;font:12px/1.6 Consolas,Monaco,monospace}
+textarea:focus,input[type=text]:focus,select:focus{border-color:var(--aqua);box-shadow:0 0 0 2px #58e2d51e}
+.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.row>*{min-width:0}
+.settings{display:grid;grid-template-columns:1fr 1fr;gap:15px}.settings .wide{grid-column:1/-1}
+.checkbox-row{display:flex;align-items:center;gap:10px;margin-top:12px;color:var(--txt)}.checkbox-row input{width:17px;height:17px;accent-color:var(--aqua)}.checkbox-row label{margin:0;font-size:13px}
+button,input[type=button]{appearance:none;border:1px solid #4a5d76;border-radius:8px;padding:11px 17px;color:#f3f7ff;background:#29374b;font:inherit;font-weight:700;cursor:pointer;transition:background .15s}
+button:hover,input[type=button]:hover{background:#38506b}button:focus-visible,input[type=button]:focus-visible{outline:2px solid var(--aqua);outline-offset:2px}
+button:disabled,input[type=button]:disabled{opacity:.4;cursor:not-allowed}
+.primary{background:var(--gold)!important;color:#171a21!important;border-color:#e7bc3a!important}.primary:hover{background:#ffe084!important}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:19px}.actions>*{flex:0 1 auto}
+.help{margin-top:20px;padding:14px 16px;background:#242b2e;border-left:3px solid var(--aqua);border-radius:6px;color:#c9e7e5;font-size:13px;line-height:1.6}
+.help code,.hint code{color:#f8d87b;font:12px Consolas,monospace}.hint{font-size:12px;color:var(--muted);margin-top:9px}
+.status{min-height:23px;margin:14px 0 0;font-weight:650;color:var(--red)}.status.ok{color:var(--aqua)}
+.result{margin-top:14px;min-height:185px;max-height:560px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;background:#0d1522;border:1px solid #41526a;border-radius:9px;padding:17px;color:#e7eef8;font:12px/1.6 Consolas,Monaco,monospace}
+.output-hint{font-size:12px;color:var(--muted)}
+footer{border-top:1px solid var(--line);margin-top:26px;padding-top:20px;color:var(--muted);font-size:12px}
+@media(max-width:780px){.grid{grid-template-columns:1fr}.panel.full{grid-column:auto}.shell{padding:22px 13px 45px}header{align-items:start}.tag{display:none}.panel{padding:17px}}
+@media(max-width:470px){.settings{grid-template-columns:1fr}.settings .wide{grid-column:auto}.actions input{width:100%}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header><div><div class="eyebrow">DalaGG Studios · WorthIt tools</div><h1>WorthIt Farm Data Merge</h1><p class="subtitle">Combine two recorded farm exports into a single Lua entry for WorthIt. Built for WoW Forever, with support for other expansions.</p></div><span class="tag">FARM TOOL · FREE</span></header>
+<div class="grid">
+<section class="panel"><div class="panel-head"><h2>First farm export</h2><span class="step">01</span></div><label for="farm-one">First import string</label><textarea id="farm-one" class="importString" placeholder="Paste your first WorthIt farm export here..." spellcheck="false"></textarea><p class="hint">Use a completed recording exported from WorthIt.</p></section>
+<section class="panel"><div class="panel-head"><h2>Second farm export</h2><span class="step">02</span></div><label for="farm-two">Second import string</label><textarea id="farm-two" class="importString2" placeholder="Paste your second WorthIt farm export here..." spellcheck="false"></textarea><p class="hint">Use the same game version and farming activity.</p></section>
+<section class="panel full"><div class="panel-head"><h2>Decode & configure</h2><span class="step">03</span></div><p class="hint">Decode both imports, then review the farm ID and category before generating Lua.</p><div class="actions"><input class="decode primary" type="button" value="Decode farm exports"></div>
+<div class="settings"><div class="wide"><label for="farm-id">Farm ID</label><input id="farm-id" type="text" class="idField" placeholder="e.g. Durotar_Copper_Mining"></div>
+<div><label for="farm-expansion">Expansion / game version</label><select id="farm-expansion" name="content" class="content">
+                <option value="1">Vanilla</option>
+                <option value="2">The Burning Crusade</option>
+                <option value="3">Wrath of the Lich King</option>
+                <option value="4">Cataclysm</option>
+                <option value="5">Mist of Pandaria</option>
+                <option value="6">Warlords of Draenor</option>
+                <option value="7">Legion</option>
+                <option value="8">Battle for Azeroth</option>
+                <option value="9">Shadowlands</option>
+                <option value="10">Dragonflight</option>
+                <option value="11">The War Within</option>
+                <option value="100">WoW Forever</option>
+            </select></div>
+<div><label for="farm-activity">Farming activity</label><select id="farm-activity" name="activities" class="activities">
+                <option value="1">Mining</option>
+                <option value="2">Herbalism</option>
+                <option value="3">Skinning</option>
+                <option value="4">Fishing</option>
+                <option value="5">Cloth</option>
+                <option value="6">Transmog</option>
+                <option value="7">Misc</option>
+                <option value="8">Mounts</option>
+                <option value="9">Toys</option>
+                <option value="10">Raw Gold</option>
+                <option value="11">Battle Pets</option>
+                <option value="12">Multi Farms</option>
+                <option value="13">Group Farms</option>
+            </select></div>
+<div class="wide checkbox-row"><input type="checkbox" checked="checked" class="removeLink" id="removeLink"><label for="removeLink">Remove item hyperlinks from output</label></div></div>
+<div class="help"><strong>WoW Forever support</strong><br>Forever uses <code>core.Content.Forever</code> (ID 100). Select <strong>WoW Forever</strong> for Forever farm exports. The generated Lua can be added to the appropriate <code>WIT/Data/forever/Results/Farms/</code> file. Do not merge farms from different game versions.</div>
+<div class="actions"><input class="update primary" type="button" value="Merge and generate Lua"></div><div class="status" role="status" aria-live="polite"></div></section>
+<section class="panel full"><div class="panel-head"><h2>Generated Lua</h2><span class="step">04</span></div><p class="output-hint">The combined farm data appears below after you generate it. Copy it into the appropriate WorthIt data file.</p><div class="actions"><input class="clipboard" type="button" value="Copy Lua to clipboard"></div><div class="result" aria-label="Generated Lua output"></div></section>
+</div><footer>WorthIt · DalaGG Studios — Merge tool. Your exports are processed in your browser; this page does not upload them to a server.</footer>
+</main>
+    <script>
+
+    </script>
+    <script>
+        function getResults(str) {
+            var term1 = '>    Results = {';
+            var term2 = '>    },';
+            var start = str.indexOf(term1);
+            var end = str.indexOf(term2, start);
+
+            var results = str.substring(start + term1.length, end + 1);
+
+            return results;
+        }
+
+        function findProperty(str, propertyName, intersect) {
+            var regexObj = new RegExp(`(\<br[^>]*>${getIntersect(intersect ?? 1)}${propertyName} [^=]*= [^,]*,)`, 'gm');
+            var match = str.match(regexObj);
+            return match && match.length > 0 ? match[0] : '';
+        }
+
+        function getPropertyValue(str, propertyName, intersect) {
+            var match = findProperty(str, propertyName, intersect);
+
+            if (!match) {
+                return '';
+            }
+
+            match = match.match(/(= [^,]*)/gm);
+
+            return match && match.length > 0 ? match[0].substring(2) : '';
+        }
+
+        function getPropertyStringValue(str, propertyName, intersect) {
+            var res = getPropertyValue(str, propertyName, intersect);
+
+            return res && res.length > 2 ? res.substring(1, res.length - 1) : '';
+        }
+
+        function replacePropertyStringValue(str, propertyName, value, intersect) {
+            return replacePropertyValue(str, propertyName, `"${value}"`, intersect)
+        }
+
+        function replacePropertyValue(str, propertyName, value, intersect) {
+            var regexObj = new RegExp(`(\<br[^>]*>${getIntersect(intersect ?? 1)}${propertyName} [^=]*= [^,]*,)`, 'gm');
+            var match = str.match(regexObj);
+
+            if (match && match.length > 0) {
+                match = match[0].replace(/(= [^,]*,)/gm, `= ${value},`);
+
+                return str.replace(regexObj, match);
+            } else {
+                var idMatch = findProperty(str, 'Id', intersect);
+                var newProperty = idMatch.replace(/ Id =/gm, ` ${propertyName} =`);
+                str = str.replace(idMatch, idMatch + newProperty);
+
+                return replacePropertyValue(str, propertyName, value, intersect);
+            }
+        }
+
+        function removeIndexes(str) {
+            var regexObj = new RegExp(`(\[[0-9]*\] = {)`, 'gm');
+            return str.replace(regexObj, '{');
+        }
+
+        function removeProperty(str, propertyName) {
+            var regexObj = new RegExp(`(<br[^>]*[^A-Za-z0-9,=]* ${propertyName} [^,]*,)`, 'gm');
+            return str.replace(regexObj, '');
+        }
+
+        function removeSection(str, sectionName) {
+            var regexObj = new RegExp(`(<br[^>]*[^A-Za-z0-9,=]* ${sectionName} [^}]*},)`, 'gm');
+            return str.replace(regexObj, '');
+        }
+
+        function getIntersect(intersectLevel, isValue) {
+            if (isValue) {
+                return ' = ';
+            }
+
+            var res = '';
+
+            for (let i = 0; i < intersectLevel; i++) {
+                res += '    ';
+            }
+
+            return res;
+        }
+
+        function deserialize(str) {
+            str = str.replaceAll(/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{6,}$/g, '')
+            var matches = str.matchAll(/([\^.])([^^]*)/g);
+            var result = '';
+            var isValue = false;
+            var intersectLevel = 0;
+            var float1 = null;
+
+            for (const match of matches) {
+                var key = match[0].substring(0, 2);
+                var value = match[0].substring(2);
+                switch (key) {
+                    case '^1':
+                    case '^':
+                        continue;
+                        break;
+                    case '^S':
+                        value = isValue ? `"${value}"` : value;
+                        result += `${getIntersect(intersectLevel, isValue)}${value}`;
+                        break;
+                    case '^B':
+                        result += `${getIntersect(intersectLevel, isValue)}true`;
+                        break;
+                    case '^b':
+                        result += `${getIntersect(intersectLevel, isValue)}false`;
+                        break;
+                    case '^N':
+                        value = isValue ? value : `[${value}]`;
+                        result += `${getIntersect(intersectLevel, isValue)}${value}`;
+                        break;
+                    case '^F':
+                        float1 = parseInt(value);
+                        continue;
+                        break;
+                    case '^f':
+                        var float2 = parseInt(value);
+                        result += `${getIntersect(intersectLevel, isValue)}${float1 * Math.pow(2, float2)}`;;
+                        break;
+                    case '^Z':
+                        result += `${getIntersect(intersectLevel, isValue)}nil`;
+                        break;
+                    case '^T':
+                        result += `${getIntersect(intersectLevel, isValue)}{<br>`;
+                        intersectLevel++;
+                        isValue = false;
+                        continue;
+                        break;
+                    case '^t':
+                        intersectLevel--;
+                        result += `${getIntersect(intersectLevel, isValue)}}`;
+                        isValue = true;
+                        break;
+                }
+
+                isValue = !isValue;
+
+                if (!isValue) {
+                    result += ',<br>';
+                }
+            }
+
+            return result;
+        }
+
+        function parseFarmData(importString, updateForm) {
+            var index = importString.lastIndexOf(':') || -1;
+
+            importString = importString.substring(index + 1);
+            importString = Base64.decode(importString);
+            importString = importString.replaceAll('~`', ' ');
+            importString = deserialize(importString);
+
+            if (updateForm) {
+                var id = getPropertyStringValue(importString, 'Id');
+                var content = getPropertyValue(importString, 'Content');
+                var activity = getPropertyValue(importString, 'Activity');
+
+                $('.idField').val(id);
+                // Old exports may contain a numeric Content value; addon Lua can use the symbolic constant.
+                $('.content').val(content === 'core.Content.Forever' ? '100' : (content || '1'));
+                $('.activities').val(activity || 1);
+            }
+
+            return importString;
+        }
+
+        function clearFarmData(importString) {
+            importString = removeProperty(importString, 'IsCustom');
+            importString = removeProperty(importString, 'IsPaused');
+            importString = removeProperty(importString, 'IsRunning');
+            importString = removeProperty(importString, 'CurrentTime');
+            importString = removeProperty(importString, 'RouteKey');
+
+            importString = removeProperty(importString, 'hidden');
+            importString = removeProperty(importString, 'looped');
+            importString = removeProperty(importString, 'visible');
+            importString = removeSection(importString, 'db_type');
+            importString = removeSection(importString, 'taboolist');
+            importString = removeSection(importString, 'taboos');
+            importString = removeSection(importString, 'selection');
+            importString = removeSection(importString, 'color');
+
+            if ($('.removeLink')[0].checked) {
+                importString = removeProperty(importString, 'ItemLink');
+            }
+
+            return importString;
+        }
+
+        function getItemList(results) {
+            var items = [];
+
+            for (const item of results.matchAll(/({[^}]*},)/g)) {
+                var itemString = item[0];
+                var id = getPropertyValue(itemString, 'Id', 3);
+                var petId = getPropertyValue(itemString, 'PetId', 3);
+                var quantity = getPropertyValue(itemString, 'Quantity', 3);
+
+                items.push({
+                    Id: id,
+                    PetId: petId,
+                    Quantity: quantity,
+                    ItemString: itemString,
+                });
+            }
+
+            return items;
+        }
+
+        $(document).ready(function () {
+            var importString = '';
+            var importString2 = '';
+            var importBox = $('.importString');
+            var importBox2 = $('.importString2');
+            var resultBox = $('.result');
+            var decodeButton = $('.decode');
+            var updateButton = $('.update');
+            var clipboardButton = $('.clipboard');
+            var statusBox = $('.status');
+            var result = '';
+            function status(message, ok) {
+                statusBox.text(message || '').toggleClass('ok', !!ok);
+            }
+            function getContentValue(decoded) {
+                var value = getPropertyValue(decoded, 'Content');
+                return value === 'core.Content.Forever' ? '100' : value;
+            }
+
+            updateButton.prop('disabled', true);
+            clipboardButton.prop('disabled', true);
+
+            decodeButton.click(function () {
+                status('');
+                updateButton.prop('disabled', true);
+                clipboardButton.prop('disabled', true);
+                resultBox.empty();
+                result = '';
+                try {
+                    if (!importBox.val().trim() || !importBox2.val().trim()) {
+                        throw new Error('Paste both WorthIt farm export strings before decoding.');
+                    }
+                    importString = parseFarmData(importBox.val().trim(), true);
+                    importString2 = parseFarmData(importBox2.val().trim(), false);
+                    if (!importString.includes('Results = {') || !importString2.includes('Results = {')) {
+                        throw new Error('Could not find farm results in one of the imports. Check that both strings are valid WorthIt farm exports.');
+                    }
+                    var content1 = getContentValue(importString);
+                    var content2 = getContentValue(importString2);
+                    if (content1 && content2 && content1 !== content2) {
+                        throw new Error('These exports are from different expansions/game versions. Please merge farms recorded in the same version.');
+                    }
+                    updateButton.prop('disabled', false);
+                    status('Decoded successfully. Check the Farm Id, Expansion and Activity, then merge.', true);
+                } catch (error) {
+                    status(error.message || 'Unable to decode farm exports.');
+                }
+            });
+
+            clipboardButton.click(async function () {
+                try {
+                    var text = result.replaceAll(/(<br[^>]*>)/g, '\r\n');
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(text);
+                    } else {
+                        var temp = $('<textarea>').val(text).appendTo('body');
+                        temp[0].select();
+                        var copied = document.execCommand('copy');
+                        temp.remove();
+                        if (!copied) throw new Error('Clipboard unavailable. Select and copy the output manually.');
+                    }
+                    status('Lua copied to clipboard.', true);
+                } catch (error) {
+                    status('Copy failed. Select the generated Lua below and copy it manually.');
+                }
+            });
+
+            updateButton.click(function () {
+                status('');
+                var newId = $('.idField').val().trim();
+                if (!newId) {
+                    status('Enter a Farm Id before generating Lua.');
+                    return;
+                }
+                var content = $('.content').val();
+                var activity = $('.activities').val();
+                var idProp = newId.replaceAll(/([^A-Za-z0-9])/g, '_');
+
+                result = `core.Data.Results.Farms.${idProp} = ${importString.substring(0, importString.lastIndexOf(','))}`
+
+                result = replacePropertyStringValue(result, 'Id', newId);
+                // Forever is defined in ProductConfig_forever.lua as core.Content.Forever = 100.
+                // Prefer the addon constant in generated Lua rather than hardcoding the number.
+                result = replacePropertyValue(result, 'Content', content === '100' ? 'core.Content.Forever' : content);
+                result = replacePropertyValue(result, 'Activity', activity);
+
+                result = clearFarmData(result);
+                importString2 = clearFarmData(importString2);
+
+                var money1 = parseInt(getPropertyValue(result, 'Money'));
+                var money2 = parseInt(getPropertyValue(importString2, 'Money'));
+
+                if (!Number.isFinite(money1) || !Number.isFinite(money2)) {
+                    status('Invalid Money field in one of the imports.');
+                    return;
+                }
+                result = replacePropertyValue(result, 'Money', money1 + money2);
+
+                var time1 = parseInt(getPropertyValue(result, 'Time'));
+                var time2 = parseInt(getPropertyValue(importString2, 'Time'));
+
+                if (!Number.isFinite(time1) || !Number.isFinite(time2)) {
+                    status('Invalid Time field in one of the imports.');
+                    return;
+                }
+                result = replacePropertyValue(result, 'Time', time1 + time2);
+
+                var results = getResults(result);
+                var results1 = removeIndexes(results);
+                var results2 = getResults(importString2);
+                results2 = removeIndexes(results2);
+
+                var items1 = getItemList(results1);
+                var items2 = getItemList(results2);
+
+                for (const item2 of items2) {
+                    var found = null;
+                    for (const item1 of items1) {
+                        if (item1.Id == item2.Id
+                            && item1.PetId == item2.PetId) {
+                            found = item1;
+                        }
+                    }
+
+                    if (found) {
+                        found.Quantity = parseInt(found.Quantity) + parseInt(item2.Quantity);
+                        found.ItemString = replacePropertyValue(found.ItemString, 'Quantity', found.Quantity, 3);
+                    } else {
+                        items1.push(item2);
+                    }
+                }
+
+                var r = '';
+
+                for (const item of items1) {
+                    r += `<br>        ${item.ItemString}`;
+                }
+
+                r += '<br>'
+
+                result = result.replace(results, r);
+
+                resultBox.html(result);
+
+                clipboardButton.prop('disabled', false);
+                status('Merged Lua generated. Review the output before adding it to WorthIt.', true);
+            });
+        });
+    </script>
+
+</body>
+</html>

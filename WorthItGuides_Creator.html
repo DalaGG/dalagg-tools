@@ -1,0 +1,196 @@
+<!-- DalaGG Studios / WorthIt Guides Creator — Squarespace Code Block -->
+<!-- Paste this entire file into one Squarespace HTML Code Block. -->
+<div id="wg-creator">
+<style>
+#wg-creator{color-scheme:dark;--bg:#0b1019;--panel:#171f2e;--panel2:#111928;--line:#34445b;--txt:#ecf2fa;--muted:#a4b4ca;--gold:#f3c94d;--aqua:#58e2d5;--red:#ed8b91}
+#wg-creator *{box-sizing:border-box}
+#wg-creator{margin:0;background:radial-gradient(ellipse at 75% -25%,#1b3450 0%,transparent 55%),var(--bg);color:var(--txt);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+#wg-creator .wg-main{max-width:1320px;margin:0 auto;padding:24px 24px 60px}
+#wg-creator .wg-header{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:5px 0 24px;border-bottom:1px solid var(--line);margin-bottom:22px}
+#wg-creator h1{margin:0;color:var(--gold);font-size:clamp(23px,3vw,32px);letter-spacing:-.6px}
+#wg-creator .wg-header p{margin:6px 0 0;color:var(--muted)}
+#wg-creator h2{font-size:16px;color:var(--aqua);margin:0 0 14px}
+#wg-creator h3{font-size:14px;margin:0;color:#e9d07b}
+#wg-creator .tag{background:#223b43;color:#9df2e8;padding:7px 11px;border-radius:999px;font-size:12px;white-space:nowrap}
+#wg-creator .layout{display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);gap:18px;align-items:start}
+#wg-creator .panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:18px;min-width:0;box-shadow:0 8px 24px #0002}
+#wg-creator .stack{display:grid;gap:18px}
+#wg-creator .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+#wg-creator .row.grow>*{flex:1 1 150px}
+#wg-creator .row .spacer{flex:1}
+#wg-creator .small{font-size:12px;color:var(--muted)}
+#wg-creator .hint{font-size:12px;color:var(--muted);margin:10px 0 0}
+#wg-creator .divider{border:0;border-top:1px solid var(--line);margin:17px 0}
+#wg-creator label{display:block;color:#c1d0e2;font-size:12px;font-weight:700;margin:12px 0 6px}
+#wg-creator input,#wg-creator textarea,#wg-creator select{width:100%;min-width:0;background:#0d1522;color:var(--txt);border:1px solid #41526a;border-radius:7px;padding:10px;font:inherit;outline:none}
+#wg-creator textarea{resize:vertical;min-height:82px}
+#wg-creator input:focus,#wg-creator textarea:focus,#wg-creator select:focus{border-color:var(--aqua);box-shadow:0 0 0 2px #58e2d51e}
+#wg-creator button{border:1px solid #4a5d76;border-radius:7px;padding:9px 12px;color:#f3f7ff;background:#29374b;font-weight:650;cursor:pointer;font:inherit}
+#wg-creator button:hover{background:#38506b}
+#wg-creator button:focus-visible{outline:2px solid var(--aqua);outline-offset:2px}
+#wg-creator button.primary{background:var(--gold);color:#171a21;border-color:#e7bc3a;font-weight:750}
+#wg-creator button.primary:hover{background:#ffe084}
+#wg-creator button.mini{padding:4px 8px;font-size:12px}
+#wg-creator button.danger{border-color:#804653;color:#ffd4d6;background:#44272e}
+#wg-creator button:disabled{opacity:.4;cursor:not-allowed}
+#wg-creator .guide-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+#wg-creator .guide-tabs button{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#wg-creator .guide-tabs button.active{border-color:var(--gold);color:var(--gold);background:#403a24}
+#wg-creator .block{background:var(--panel2);border:1px solid #3b4b60;border-radius:9px;margin:10px 0;padding:11px}
+#wg-creator .blockhead{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+#wg-creator .blockhead strong{flex:1;color:#e9d17b}
+#wg-creator .blockhead button{padding:4px 9px}
+#wg-creator .block textarea{min-height:70px}
+#wg-creator .block .fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#wg-creator .block .fields .full{grid-column:1/-1}
+#wg-creator .preview{border:1px solid #4c5464;border-radius:9px;background:#080c12;padding:18px;min-height:180px;font:14px/1.4 Georgia,serif}
+#wg-creator .preview .page-title{font-size:19px;color:var(--aqua);margin:0 0 5px}
+#wg-creator .preview .category{font:12px system-ui;color:#a3b4c6;margin-bottom:12px}
+#wg-creator .preview .title{font-size:16px;color:var(--aqua);margin:14px 0 6px}
+#wg-creator .preview .header{color:#f9df55;font-weight:bold;margin:13px 0 6px}
+#wg-creator .preview .text{margin:5px 0;white-space:pre-wrap;overflow-wrap:anywhere}
+#wg-creator .preview .item{color:#80c9ff;margin:7px 0}
+#wg-creator .preview .way{display:inline-block;border:1px solid #727c8b;background:#252b36;border-radius:4px;padding:4px 15px;margin:6px 0;color:#eee;font:12px system-ui}
+#wg-creator .preview .empty{color:#889bb1;font:13px system-ui}
+#wg-creator .output{height:250px;min-height:180px;font:12px/1.55 Consolas,monospace;white-space:pre;tab-size:2}
+#wg-creator .notice{background:#2c291d;border-left:3px solid var(--gold);padding:11px;border-radius:3px;color:#e7d7a7;font-size:12px;margin-top:12px}
+#wg-creator .status{min-height:20px;color:var(--aqua);font-size:12px;margin-top:10px}
+#wg-creator .status.error{color:var(--red)}
+#wg-creator .hidden{display:none!important}
+#wg-creator .guidecount{color:var(--muted);font-size:12px}
+@media (max-width:920px){#wg-creator .layout{grid-template-columns:1fr}
+#wg-creator .wg-main{padding:15px}
+#wg-creator .tag{display:none}}
+@media (max-width:520px){#wg-creator .block .fields{grid-template-columns:1fr}
+#wg-creator .block .fields .full{grid-column:auto}
+#wg-creator .wg-header{padding-bottom:16px}}
+/* Squarespace-specific adjustments: keep all styling within the creator. */
+#wg-creator{width:100%;color-scheme:dark;overflow-wrap:anywhere;}
+#wg-creator .wg-main{max-width:1320px;margin:auto;padding:20px 10px 50px;}
+#wg-creator .layout{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));}
+#wg-creator button{min-height:36px;}
+#wg-creator input,#wg-creator textarea,#wg-creator select{max-width:100%;}
+#wg-creator .panel{overflow:hidden;}
+
+</style>
+<div class="wg-main">
+<div class="wg-header"><div><h1>WorthIt Guides Creator</h1><p>Create and share your own in-game guides. No Lua or coding required.</p></div><span class="tag">PLAYER TOOL · FREE</span></div>
+<div class="layout">
+<div class="stack">
+<section class="panel">
+<h2>1. Your guide collection</h2>
+<label for="category">Category name</label><input id="category" maxlength="120" value="My Adventures" placeholder="e.g. Mount Farming">
+<p class="hint">A package can contain several guides, all in the same category. The category appears under My Guides in the addon.</p>
+<div class="guide-tabs" id="tabs"></div>
+<div class="row"><button id="newGuide">+ New guide</button><button id="renameGuide">Rename</button><button id="deleteGuide" class="danger">Delete guide</button><span id="guideCount" class="guidecount"></span></div>
+<hr class="divider">
+<label for="guideTitle">Selected guide title</label><input id="guideTitle" maxlength="150" placeholder="e.g. My Winterspring Route">
+<h3 style="margin-top:18px">Add content</h3>
+<div class="row" style="margin-top:10px">
+<button data-add="title">+ Title</button><button data-add="header">+ Heading</button><button data-add="text">+ Text</button><button data-add="item">+ Item</button><button data-add="way">+ Waypoint</button><button data-add="waylist">+ Route</button>
+</div>
+<p class="hint">Arrange the guide in the order you want players to see it. Waypoint zones use WoW map IDs, not zone names.</p>
+<div id="blocks"></div>
+</section>
+<section class="panel">
+<h2>Save your work</h2>
+<div class="row"><button id="saveProject">Save editable project (.json)</button><button id="loadProject">Open project</button><input type="file" id="projectFile" accept=".json,application/json" class="hidden"></div>
+<p class="hint">JSON is for editing your project later. The in-game import package is generated separately.</p>
+</section>
+</div>
+<div class="stack">
+<section class="panel">
+<h2>2. In-game preview</h2><div class="preview" id="preview"></div>
+<p class="hint">Approximate preview; WoW renders its own text, item links and waypoint buttons.</p>
+</section>
+<section class="panel">
+<h2>3. Export to WorthIt Guides</h2>
+<div class="row"><button class="primary" id="generate">Generate import package</button><button id="copy">Copy</button><button id="download">Download .txt</button></div>
+<label for="output">Import text (copy the entire package)</label>
+<textarea id="output" class="output" spellcheck="false" readonly placeholder="Your import package will appear here."></textarea>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+<div class="notice">In WoW, open <b>WorthIt Guides → My Guides</b>, paste the full package into <b>Import Category Package</b>, and click <b>Import Package</b>. This tool exports the existing <code>WITGUIDES_EXPORT_V1</code> format.</div>
+</section>
+<section class="panel">
+<h2>Already have a shared guide?</h2>
+<p class="small">Paste an existing WorthIt Guides category package to open and edit its guides here.</p>
+<label for="importInput">Existing import package</label><textarea id="importInput" rows="4" placeholder="WITGUIDES_EXPORT_V1&#10;CATEGORY:..."></textarea>
+<button id="importPackage">Open imported package</button>
+<p class="hint">Opening a package replaces your current editor project. Save it first if needed.</p>
+</section>
+</div>
+</div>
+</div>
+</div>
+<script>
+
+(()=>{'use strict';
+const root=document.getElementById('wg-creator'); if(!root)return; const $=id=>root.querySelector('#'+id);
+let serial=0, guides=[],active=0;
+const kinds=['title','header','text','item','way','waylist'];
+const names={title:'Title',header:'Heading',text:'Text',item:'Item link',way:'Waypoint button',waylist:'Waypoint route'};
+function createGuide(name='New Guide'){return {id:++serial,title:name,blocks:[]}}
+function createBlock(type){return {id:++serial,type,value:type==='title'?'New section':type==='header'?'Section heading':type==='text'?'Write your instructions here.':type==='item'?'19019':type==='way'?'Create Waypoint':'Create Route',zone:'83',coords:type==='waylist'?'49.9 9.8; 50.3 11.0':'49.9 9.8'}}
+function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
+function status(msg,error=false){const s=$('status');s.textContent=msg;s.className='status'+(error?' error':'')}
+function current(){return guides[active]}
+function safeText(s){return String(s??'').replace(/\r/g,'').replace(/\n/g,' ').trim()}
+function field(parent,label,value,cb,multi=false,placeholder=''){const wrap=el('div');const l=el('label','',label);wrap.append(l);const input=el(multi?'textarea':'input');input.value=value||'';input.placeholder=placeholder;input.addEventListener('input',()=>cb(input.value));wrap.append(input);parent.append(wrap);return input}
+function btn(text,cb,cls=''){const b=el('button',cls,text);b.type='button';b.addEventListener('click',cb);return b}
+function renderTabs(){const root=$('tabs');root.replaceChildren();guides.forEach((g,i)=>{const b=btn(g.title||'Untitled',()=>{active=i;render()});if(i===active)b.classList.add('active');b.title=g.title;root.append(b)});$('guideCount').textContent=guides.length+' guide'+(guides.length===1?'':'s');$('guideTitle').value=current()?.title||''}
+function moveBlock(index,delta){const a=current().blocks,j=index+delta;if(j<0||j>=a.length)return;[a[index],a[j]]=[a[j],a[index]];render()}
+function renderBlocks(){const root=$('blocks');root.replaceChildren();const guide=current();if(!guide)return;guide.blocks.forEach((b,i)=>{
+const card=el('div','block'),head=el('div','blockhead');head.append(el('strong','',(i+1)+'. '+names[b.type]));
+head.append(btn('↑',()=>moveBlock(i,-1),'mini'));head.append(btn('↓',()=>moveBlock(i,1),'mini'));head.append(btn('×',()=>{guide.blocks.splice(i,1);render()},'mini danger'));card.append(head);
+const fields=el('div','fields');
+if(b.type==='title'||b.type==='header'||b.type==='text'){const wrap=el('div','full');field(wrap,b.type==='text'?'Instructions (one or more lines)':'Display text',b.value,v=>{b.value=v;refresh()},b.type==='text');fields.append(wrap)}
+else if(b.type==='item'){const wrap=el('div','full');field(wrap,'WoW item ID (numbers only)',b.value,v=>{b.value=v;refresh()},false,'19019');fields.append(wrap)}
+else {field(fields,'Zone map ID',b.zone,v=>{b.zone=v;refresh()},false,'83');field(fields,'Button label',b.value,v=>{b.value=v;refresh()});const wrap=el('div','full');field(wrap,b.type==='way'?'Coordinates (X Y or X,Y)':'Coordinates (X Y; X Y; ...)',b.coords,v=>{b.coords=v;refresh()},b.type==='waylist','49.9 9.8');fields.append(wrap)}
+card.append(fields);root.append(card)});if(!guide.blocks.length)root.append(el('p','hint','Your guide is empty. Add a heading, instructions or a waypoint above.'))}
+function render(){renderTabs();renderBlocks();refresh()}
+function previewLine(root,type,text){const d=el('div',type,text);root.append(d)}
+function refresh(){const root=$('preview');root.replaceChildren();const g=current();if(!g)return;previewLine(root,'page-title',g.title||'Untitled Guide');previewLine(root,'category','Category: '+($('category').value.trim()||'General'));
+if(!g.blocks.length)previewLine(root,'empty','Add blocks to preview your guide.');
+g.blocks.forEach(b=>{if(b.type==='text'){const lines=b.value.split(/\r?\n/);lines.forEach(line=>previewLine(root,'text',line||' '))}
+else if(b.type==='way'||b.type==='waylist')previewLine(root,'way',(b.value||'Waypoint')+' · '+b.zone+' · '+b.coords);
+else if(b.type==='item')previewLine(root,'item','Item #'+b.value);
+else previewLine(root,b.type,b.value)})}
+function base64Encode(s){const bytes=new TextEncoder().encode(String(s));let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(binary)}
+function base64Decode(s){const bin=atob(s.replace(/\s/g,''));const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder('utf-8',{fatal:true}).decode(bytes)}
+function validCoords(str){const m=String(str).trim().match(/^(\d+(?:\.\d+)?)\s*[,\s]\s*(\d+(?:\.\d+)?)$/);if(!m)return null;const x=+m[1],y=+m[2];return x<=100&&y<=100?`${m[1]} ${m[2]}`:null}
+function safeTag(s){const val=safeText(s);if(!val||/[<>|]/.test(val))throw Error('Headings and button labels cannot contain <, > or | characters.');return val}
+function contentFor(g){const lines=[];for(const b of g.blocks){if(b.type==='text'){for(const line of String(b.value).replace(/\r/g,'').split('\n')){const trimmed=line.trim();if(/^<.*>$/.test(trimmed))throw Error('Text in "'+g.title+'" looks like a shortcode. Remove the angle brackets.');lines.push(line)}}
+else if(b.type==='title'||b.type==='header')lines.push('<'+b.type+'|'+safeTag(b.value)+'>');
+else if(b.type==='item'){const id=safeText(b.value);if(!/^\d+$/.test(id))throw Error('Item ID in "'+g.title+'" must be numeric.');lines.push('<item|'+id+'>')}
+else{const zone=safeText(b.zone);if(!/^\d+$/.test(zone))throw Error('Waypoint zone in "'+g.title+'" must be a numeric WoW map ID.');let coords;
+if(b.type==='way'){coords=validCoords(b.coords);if(!coords)throw Error('Waypoint in "'+g.title+'" needs valid X Y coordinates (0–100).')}
+else{const points=b.coords.split(';').map(x=>validCoords(x));if(!points.length||points.some(x=>!x))throw Error('Route in "'+g.title+'" needs X Y; X Y coordinates (0–100).');coords=points.join('; ')}
+lines.push('<'+b.type+'|'+zone+'|'+coords+'|'+safeTag(b.value)+'>')}
+}return lines.join('\n')}
+function packageText(){const cat=$('category').value.trim()||'General';if(!guides.length)throw Error('Add at least one guide.');const lines=['WITGUIDES_EXPORT_V1','CATEGORY:'+base64Encode(cat)];for(const g of guides){if(!g.title.trim())throw Error('Every guide needs a title.');const content=contentFor(g);if(!content.trim())throw Error('Guide "'+g.title+'" has no content.');lines.push('GUIDE:'+base64Encode(g.title.trim())+':'+base64Encode(content))}lines.push('CATEGORY_END');return lines.join('\n')}
+function generate(){try{const text=packageText();$('output').value=text;status('Ready! '+guides.length+' guide(s) exported.');return text}catch(e){status(e.message,true);return null}}
+function download(text,name,type){const url=URL.createObjectURL(new Blob([text],{type}));const a=el('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000)}
+function filename(s){return String(s).replace(/[^a-z0-9_-]+/gi,'_').slice(0,60)||'WorthItGuides'}
+function openPackage(text){const lines=text.trim().replace(/\r\n?/g,'\n').split('\n').map(x=>x.trim()).filter(Boolean);if(lines[0]!=='WITGUIDES_EXPORT_V1')throw Error('Not a WorthIt Guides V1 package.');let category=null,loaded=[];for(const line of lines.slice(1)){if(line.startsWith('CATEGORY:'))category=base64Decode(line.slice(9));else if(line.startsWith('GUIDE:')){if(category===null)throw Error('A GUIDE entry appeared before CATEGORY.');const match=line.match(/^GUIDE:([^:]+):(.+)$/);if(!match)throw Error('Invalid GUIDE entry.');const g=createGuide(base64Decode(match[1]));const content=base64Decode(match[2]);for(const raw of content.split('\n')){const s=raw.trim();let m;
+if((m=s.match(/^<(title|header)\|([^<>]*)>$/i)))g.blocks.push({...createBlock(m[1].toLowerCase()),value:m[2]});
+else if((m=s.match(/^<item\|(\d+)>$/i)))g.blocks.push({...createBlock('item'),value:m[1]});
+else if((m=s.match(/^<(way|waylist)\|([^|]+)\|([^|]+)\|([^<>|]+)>$/i)))g.blocks.push({...createBlock(m[1].toLowerCase()),zone:m[2],coords:m[3],value:m[4]});
+else g.blocks.push({...createBlock('text'),value:raw})}loaded.push(g)}}
+if(!loaded.length)throw Error('No guides found in this package.');$('category').value=category||'General';guides=loaded;active=0;render();status('Opened '+loaded.length+' guide(s) from import package.')}
+root.querySelectorAll('[data-add]').forEach(b=>b.addEventListener('click',()=>{current().blocks.push(createBlock(b.dataset.add));render()}));
+$('newGuide').addEventListener('click',()=>{guides.push(createGuide('New Guide '+(guides.length+1)));active=guides.length-1;render()});
+$('renameGuide').addEventListener('click',()=>$('guideTitle').focus());
+$('deleteGuide').addEventListener('click',()=>{if(guides.length===1){status('Keep at least one guide in the collection.',true);return}if(!confirm('Delete "'+current().title+'" from this project?'))return;guides.splice(active,1);active=Math.min(active,guides.length-1);render()});
+$('guideTitle').addEventListener('input',e=>{current().title=e.target.value;renderTabs();refresh()});
+$('category').addEventListener('input',refresh);
+$('generate').addEventListener('click',generate);
+$('copy').addEventListener('click',async()=>{const t=generate();if(!t)return;try{await navigator.clipboard.writeText(t);status('Copied! Paste the full package into My Guides in-game.')}catch(e){$('output').focus();$('output').select();status('Clipboard access blocked. Press Ctrl+C to copy the selected text.',true)}});
+$('download').addEventListener('click',()=>{const t=generate();if(t)download(t,filename($('category').value)+'_WorthItGuides.txt','text/plain;charset=utf-8')});
+$('saveProject').addEventListener('click',()=>download(JSON.stringify({format:'worthit-player-project-v1',category:$('category').value,guides:guides.map(g=>({title:g.title,blocks:g.blocks.map(({id,...rest})=>rest)}))},null,2),'WorthItGuides_Project.json','application/json'));
+$('loadProject').addEventListener('click',()=>$('projectFile').click());
+$('projectFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data.guides)||!data.guides.length)throw Error('Invalid project file.');const next=data.guides.map(g=>({id:++serial,title:String(g.title||''),blocks:(Array.isArray(g.blocks)?g.blocks:[]).filter(b=>kinds.includes(b.type)).map(b=>({...createBlock(b.type),...b,id:++serial}))}));$('category').value=String(data.category||'General');guides=next;active=0;render();status('Project loaded.')}catch(err){status('Could not load project: '+err.message,true)}e.target.value=''});
+$('importPackage').addEventListener('click',()=>{try{openPackage($('importInput').value)}catch(e){status('Could not open package: '+e.message,true)}});
+guides=[createGuide('My First Guide')];guides[0].blocks=[{...createBlock('header'),value:'Getting Started'},{...createBlock('text'),value:'Write your guide here. Add waypoints, items and more!'}];render();
+})();
+
+</script>
